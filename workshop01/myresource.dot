@@ -1,0 +1,41 @@
+digraph {
+	compound = "true"
+	newrank = "true"
+	subgraph "root" {
+		"[root] data.digitalocean_ssh_key.mykey (expand)" [label = "data.digitalocean_ssh_key.mykey", shape = "box"]
+		"[root] digitalocean_droplet.web (expand)" [label = "digitalocean_droplet.web", shape = "box"]
+		"[root] local_file.at_ipv4 (expand)" [label = "local_file.at_ipv4", shape = "box"]
+		"[root] local_file.droplet_info (expand)" [label = "local_file.droplet_info", shape = "box"]
+		"[root] output.IPv4" [label = "output.IPv4", shape = "note"]
+		"[root] output.mykey-fingerprint" [label = "output.mykey-fingerprint", shape = "note"]
+		"[root] provider[\"registry.terraform.io/digitalocean/digitalocean\"]" [label = "provider[\"registry.terraform.io/digitalocean/digitalocean\"]", shape = "diamond"]
+		"[root] provider[\"registry.terraform.io/hashicorp/local\"]" [label = "provider[\"registry.terraform.io/hashicorp/local\"]", shape = "diamond"]
+		"[root] var.DO_image" [label = "var.DO_image", shape = "note"]
+		"[root] var.DO_region" [label = "var.DO_region", shape = "note"]
+		"[root] var.DO_size" [label = "var.DO_size", shape = "note"]
+		"[root] var.DO_token" [label = "var.DO_token", shape = "note"]
+		"[root] data.digitalocean_ssh_key.mykey (expand)" -> "[root] provider[\"registry.terraform.io/digitalocean/digitalocean\"]"
+		"[root] digitalocean_droplet.web (expand)" -> "[root] data.digitalocean_ssh_key.mykey (expand)"
+		"[root] digitalocean_droplet.web (expand)" -> "[root] var.DO_image"
+		"[root] digitalocean_droplet.web (expand)" -> "[root] var.DO_region"
+		"[root] digitalocean_droplet.web (expand)" -> "[root] var.DO_size"
+		"[root] local_file.at_ipv4 (expand)" -> "[root] digitalocean_droplet.web (expand)"
+		"[root] local_file.at_ipv4 (expand)" -> "[root] provider[\"registry.terraform.io/hashicorp/local\"]"
+		"[root] local_file.droplet_info (expand)" -> "[root] digitalocean_droplet.web (expand)"
+		"[root] local_file.droplet_info (expand)" -> "[root] provider[\"registry.terraform.io/hashicorp/local\"]"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] local_file.at_ipv4 (expand)"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] local_file.droplet_info (expand)"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] output.IPv4"
+		"[root] meta.count-boundary (EachMode fixup)" -> "[root] output.mykey-fingerprint"
+		"[root] output.IPv4" -> "[root] digitalocean_droplet.web (expand)"
+		"[root] output.mykey-fingerprint" -> "[root] data.digitalocean_ssh_key.mykey (expand)"
+		"[root] provider[\"registry.terraform.io/digitalocean/digitalocean\"] (close)" -> "[root] digitalocean_droplet.web (expand)"
+		"[root] provider[\"registry.terraform.io/digitalocean/digitalocean\"]" -> "[root] var.DO_token"
+		"[root] provider[\"registry.terraform.io/hashicorp/local\"] (close)" -> "[root] local_file.at_ipv4 (expand)"
+		"[root] provider[\"registry.terraform.io/hashicorp/local\"] (close)" -> "[root] local_file.droplet_info (expand)"
+		"[root] root" -> "[root] meta.count-boundary (EachMode fixup)"
+		"[root] root" -> "[root] provider[\"registry.terraform.io/digitalocean/digitalocean\"] (close)"
+		"[root] root" -> "[root] provider[\"registry.terraform.io/hashicorp/local\"] (close)"
+	}
+}
+

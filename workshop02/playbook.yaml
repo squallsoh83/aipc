@@ -1,0 +1,85 @@
+#Step 1 - Install software git, ssh,docker, ansible, packer, terraform, docker-machine
+- name: AIPC Day 2 Workshop
+  hosts: all
+  tasks:
+  #- name: Task 2a - Install patches
+  #  apt:
+  #    update_cache: yes
+  #    name: "*"
+  #    state: latest
+  #- name: Task 2b - Reboot server using Ansible
+  #  reboot:
+  - name: Task 3a - Install packages (GIT, SSH,Ansible, packer, nginx)
+    apt:
+      name: "{{ item }}"
+      update_cache: yes
+      state: latest
+    loop:
+    - git
+    - ssh
+    - ansible
+    - packer
+    - nginx
+    - ca-certificates
+    - curl
+    - gnupg
+    - lsb-release
+    - curl
+    - zip
+    - software-properties-common
+  - name: Add docker apt key
+    apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+  - name: Add Repositories APT repo
+    apt_repository:
+      repo: "{{item}}"
+      state: present
+    loop:
+    - "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+    - "ppa:ansible/ansible"
+  - name: Install docker and ansible
+    apt:
+      name: "{{ item }}"
+      update_cache: yes
+      state: latest
+    loop:
+    - docker-ce
+    - docker-ce-cli
+    - containerd.io
+    - ansible
+  - name: Task 3b - Install terraform Part 1
+    shell:
+      cmd: "sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl"
+  - name: Task 3b - Install terraform Part 2
+    shell:
+      cmd: "curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -"
+  - name: Task 3b - Install terraform Part 3
+    shell:
+      cmd: 'sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"'   
+  - name: Task 3b - Install terraform Part 4
+    shell:
+      cmd: "sudo apt-get update && sudo apt-get install terraform"      
+  - name:  Task 6 - Install ngingx Step X - Enable nginx
+    systemd:
+      name: nginx 
+      enabled: yes
+      state: started
+  - name: Task 5 - Create Fred user
+    user:
+      name: fred
+      state: present
+      group: "sudo"
+  - name:  Task 6 - Install ngingx Step X - Enable nginx
+    systemd:
+      name: nginx 
+      enabled: yes
+      state: started
+
+
+#https://gitlab-docker-machine-downloads.s3.amazonaws.com/main/docker-machine-Linux-x86_64
+#Step 2 - Install Terraform 
+# sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl
+# curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+# sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+# sudo apt-get update && sudo apt-get install terraform
