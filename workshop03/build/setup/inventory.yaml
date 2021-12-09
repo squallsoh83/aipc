@@ -1,0 +1,8 @@
+all:
+  hosts:
+    myserver:
+      ansible_host: 128.199.108.33
+      ansible_user: root
+      ansible_connection: ssh
+      ansible_private_key_file: ../../../mykey
+      public_key_file: ../../../mykey.pub

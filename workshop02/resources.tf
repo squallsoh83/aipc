@@ -1,11 +1,13 @@
-//Server section
-resource "digitalocean_droplet" "web" {
+
+data digitalocean_ssh_key mykey {
+    name = "mykey"
+}
+resource "digitalocean_droplet" "myserver" {
   image  = var.DO_image //"ubuntu-20-04-x64"
-  name   = "web-1"
+  name   = "myserver"
   region = var.DO_region //"sgp1"
   size   = var.DO_size //"s-1vcpu-1gb"
   ssh_keys = [
-      //fill this part in
       data.digitalocean_ssh_key.mykey.fingerprint
   ]
   //povision connection object
@@ -16,17 +18,15 @@ resource "digitalocean_droplet" "web" {
       host = self.ipv4_address
   }
 }
-data digitalocean_ssh_key mykey {
-    name = "mykey"
-}
-
-resource local_file droplet_info {
+resource local_file inventory-yaml {
     filename = "inventory.yaml"
-    content = templatefile("inventory.yml.tpl", {
-        ipv4 = digitalocean_droplet.web.ipv4_address
-        private_key = var.private_key
+    file_permission = 0644
+    content = templatefile("inventory.yaml.tpl", {
+        host_name = digitalocean_droplet.myserver.name
+        host_ip = digitalocean_droplet.myserver.ipv4_address
+        private_key = "${var.private_key}"
+        public_key = "${var.public_key}"
     })
-    file_permission = "0644"
 }
 
 output mykey-fingerprint {

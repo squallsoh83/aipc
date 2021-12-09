@@ -78,7 +78,7 @@ resource local_file droplet_info {
     })
     file_permission = "0644"
 }
-/*
+
 // Cloudflare
 data cloudflare_zone myzone {
     name = var.CF_zone
@@ -90,14 +90,14 @@ resource cloudflare_record a-dov {
     type = "A"
     value = digitalocean_droplet.my-droplet.ipv4_address
     proxied = true
-}*/
+}
 
 output ipv4 {
     value = digitalocean_droplet.my-droplet.ipv4_address
 }
 
-output my-key-fingerprint {
-    value = data.digitalocean_ssh_key.my-key.fingerprint
+output mykey-fingerprint {
+    value = data.digitalocean_ssh_key.mykey.fingerprint
 }
 
 output app-ports {

@@ -1,7 +1,7 @@
-
 variable DO_token { 
     type = string
     sensitive = true
+    #default = "9a243966ab54bf759ad3f50e9dae682f36ad860fc2a545ae49f2ab8a56df92e7"
 }
 
 variable DO_image {
@@ -21,9 +21,5 @@ variable DO_region {
 
 variable private_key {
     type = string
-    
-}
-
-variable public_key {
-    type = string
+    #default = "../../mykey"
 }
